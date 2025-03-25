@@ -7,13 +7,6 @@ else()
   set(DEV_MODULE Development.Module)
 endif()
 
-# Ensure Python is found explicitly within the Conda environment
-if (DEFINED ENV{CONDA_PREFIX})
-  set(CONDA_PYTHON_EXECUTABLE "$ENV{CONDA_PREFIX}/bin/python")
-else()
-  message(FATAL_ERROR "Conda environment not detected. Please activate your Conda environment.")
-endif()
-
 find_package(Python 3.8 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
 if (NOT Python_EXECUTABLE)
   message(FATAL_ERROR "Python 3.8 not found in the Conda environment.")
