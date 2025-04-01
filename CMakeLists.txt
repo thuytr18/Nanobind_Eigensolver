@@ -22,4 +22,9 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT)
 find_package(nanobind CONFIG REQUIRED)
 
-nanobind_add_module(my_ext my_ext.cpp)
+set(MADNESS_DIR "../madness/lib/cmake/madness")
+find_package(MADNESS CONFIG REQUIRED)
+
+nanobind_add_module(1dharmonic 1dharmonic.cpp)
+target_link_libraries(1dharmonic PRIVATE madness)
+
