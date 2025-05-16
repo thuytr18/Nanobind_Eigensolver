@@ -1,16 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
-project(Nanobind_TeqMad)
+project(Nanobind_Eigensolver)
 
-if (CMAKE_VERSION VERSION_LESS 3.18)
-  set(DEV_MODULE Development)
-else()
-  set(DEV_MODULE Development.Module)
-endif()
+set(MADNESS_DIR "../madness/lib/cmake/madness")
+find_package(MADNESS CONFIG REQUIRED)
 
-find_package(Python 3.8 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
-if (NOT Python_EXECUTABLE)
-  message(FATAL_ERROR "Python 3.8 not found in the Conda environment.")
-endif()
+set(DEV_MODULE Development.Module)
+
+find_package(Python 3.11 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
 
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
@@ -22,9 +18,7 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT)
 find_package(nanobind CONFIG REQUIRED)
 
-set(MADNESS_DIR "../madness/lib/cmake/madness")
-find_package(MADNESS CONFIG REQUIRED)
+nanobind_add_module(my_ext my_ext.cpp)
+# target_link_libraries(eigensolver PRIVATE madness)
 
-nanobind_add_module(1dharmonic 1dharmonic.cpp)
-target_link_libraries(1dharmonic PRIVATE madness)
 
